@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Show values</title>
+    <title>Error 404</title>
 </head>
 <body>
-<h1>Values</h1>
-<p>
-    Your name is: {{name}}
-</p>
+<h1>Error 404</h1>
 <div>
-    <a href="{{url_for('show_age', age=27)}}">Change to show age</a>
+    {{error}}
 </div>
 <div>
     <a href="{{url_for('hello_world')}}">Get back to init</a>

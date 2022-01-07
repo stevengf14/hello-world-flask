@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, url_for
 from werkzeug.utils import redirect
+from werkzeug.exceptions import abort
 app = Flask(__name__)
 
 @app.route('/')
@@ -23,6 +24,13 @@ def show_name(name):
 def change_route():
     return redirect(url_for('show_name', name='Steven'))
 
+@app.route('/out')
+def out():
+    return abort(404)
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('error404.html', error=error), 404
 
 if __name__ == '__main__':
    app.run(debug = True)
