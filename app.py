@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, jsonify
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 app = Flask(__name__)
@@ -31,6 +31,12 @@ def out():
 @app.errorhandler(404)
 def not_found(error):
     return render_template('error404.html', error=error), 404
+
+#REST Representational state transfer
+@app.route('/api/show/<name>', methods=['GET','POST'])
+def show_json(name):
+    values = {'name': name, 'method_http': request.method}
+    return jsonify(values)
 
 if __name__ == '__main__':
    app.run(debug = True)
