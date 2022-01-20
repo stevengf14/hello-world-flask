@@ -1,9 +1,32 @@
-from flask import Flask, request, render_template, url_for, jsonify
+from flask import Flask, request, render_template, url_for, jsonify, session
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 app = Flask(__name__)
 
+app.secret_key = 'My_secret_key'
+
 @app.route('/')
+def index():
+    if 'username' in session:
+        return f'User {session["username"]} have been logged'
+    return 'User have not been logged'
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        # Omit validation of user and password
+        user = request.form['username']
+        # add user to session
+        session['username'] = user
+        return redirect(url_for('index'))
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect(url_for('index'))
+
+@app.route('/hello_world')
 def hello_world():
     app.logger.info(f'Get the path {request.path}')
     return 'Hello World'
